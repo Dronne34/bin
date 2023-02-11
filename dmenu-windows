@@ -1,0 +1,23 @@
+#!/bin/sh
+
+desktops=$(mktemp -t dmenu_windows.XXXXXX)
+windows=$(mktemp -t dmenu_windows.XXXXXX)
+
+wmctrl -d > "$desktops"
+wmctrl -l > "$windows"
+
+select=$(awk 'FNR==NR{a[$1]=$2" ["$9;next}{print a[$2]"]",$0}' \
+            "$desktops" "$windows" \
+                | cut -d ' ' -f1-2,7- \
+                | nl -w 2 -n rz -s ' ' \
+                | dmenu -l "10" -fn "mononokiNerdFont-13" -nb "#2C323E" -nf "#5FD8EC" -sb "#4B666C" -sf "#FFFFFF" -x "500" -y "50" -z "1000" -p 'window »' \
+                | cut -d ' ' -f1 \
+)
+
+[ -n "$select" ] \
+    && wmctrl -i -a "$( \
+        sed -n "$select p" "$windows" \
+            | cut -c -10 \
+    )"
+
+rm -f "$desktops" "$windows"

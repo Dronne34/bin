@@ -1,0 +1,19 @@
+#!/bin/bash
+#
+# a simple dmenu session script 
+#
+###
+
+DMENU='dmenu -i -fn mononokiNerdFont-13 -nb #2C323E -nf #5FD8EC -sb #4B666C -sf #FFFFFF '
+choice=$(echo -e "logout\nshutdown\nreboot\nsuspend\nhibernate" | $DMENU)
+
+case "$choice" in
+  logout) i3-msg exit & ;;
+  shutdown) sudo shutdown -h now & ;;
+
+  reboot) sudo shutdown -r now & ;;
+
+  suspend) sudo pm-suspend & ;;
+
+  hibernate) sudo pm-hibernate & ;;
+esac

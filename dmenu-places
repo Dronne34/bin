@@ -1,0 +1,43 @@
+#!/bin/sh
+# dmenu theming
+. $HOME/.local/bin/dmenu-theming
+
+# Get the user's input from dmenu
+folder=$(echo -e "Documents\nDownloads\nMusic\nPictures\nVideos\nConfig\nLocal\nBin" | dmenu -i $prompt $lines $colors $font $xoffset $yoffset $width -p "Open folder:")
+
+# Determine the folder path based on the user's input
+case "$folder" in
+    "Documents")
+        folder_path=~/Documents
+        ;;
+    "Downloads")
+        folder_path=~/Downloads
+        ;;
+    "Music")
+        folder_path=~/Music
+        ;;
+    "Pictures")
+        folder_path=~/Pictures
+        ;;
+    "Videos")
+        folder_path=~/Videos
+        ;;
+     "Config")
+        folder_path=~/.config   
+        ;;
+     "Local")
+        folder_path=~/.local   
+        ;;
+     "Bin")
+        folder_path=~/.local/bin  
+        ;;
+
+    esac
+
+
+# Open the folder in the file manager
+if [[ ! -z "$folder_path" ]]; then
+    urxvt -e ranger "$folder_path"
+fi
+
+exit 0

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# This script makes a backup of specific selected folders within .config
+
+# The location to save the backup
+backup_folder=~/backups/
+
+# The date and time for the backup file name
+current_date=$(date +%Y-%m-%d-%H-%M-%S)
+
+# The .config folder
+config_folder=~/.config
+# config_files=~/.config
+
+# An array of folder options within .config
+folders=(
+  "$(ls -aAv  ${config_folder})"
+)
+
+# files=(
+#   "$(ls -1 ${config_folder})"
+# )
+
+
+# Use dmenu to ask the user to select folders to backup
+selected_folders=$(printf '%s\n' "${folders[@]}" "${files[@]}" | dmenu -l "15" -fn "mononokiNerdFont-13"  -p "Select folders within .config to backup (space-separated):")
+
+# Splitting the selected folders into an array
+selected_folders_array=($selected_folders)
+
+# Creating the backup for each selected folder
+for folder in "${selected_folders_array[@]}"; do
+  source_folder=${config_folder}/${folder}
+  dest_folder=${backup_folder}${folder}-${current_date}
+  cp -r ${source_folder} ${dest_folder}
+
+  # Confirming that the backup was successful
+  if [ $? -eq 0 ]; then
+    echo "Backup of ${folder} was successful and saved to ${backup_folder}"
+  else
+    echo "Backup of ${folder} failed"
+  fi
+done
