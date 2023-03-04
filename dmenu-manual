@@ -1,4 +1,4 @@
-    #!/bin/sh
+#!/usr/bin/env bash
 
 # path:   /home/klassiker/.local/share/repos/dmenu/scripts/dmenu_man.sh
 # author: klassiker [mrdotx]

@@ -4,7 +4,7 @@ project=$(basename `pwd`)
 #echo $project >> README.md
 git init
 git add .
-gh repo create $project --public 
+gh repo create $project --public  
 #git add README.md
 git commit -m "$project no change"
 git branch -M main
